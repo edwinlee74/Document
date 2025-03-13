@@ -48,7 +48,7 @@
    ## kubeconfig檔會在/etc/rancher/rke2/rke2.yaml, 可直接copy到個人目錄下的.kube目錄
    mkdir .kube
    sudo cp /etc/rancher/rke2/rke2.yaml .kube/config
-   sudo chown ${whoami}:${whoami} .kube/config
+   sudo chown `whoami`:`whoami` .kube/config
 
    ## 使用kubectl工具程式, 查看目前的元件狀態
     kubectl get componentstatuses
@@ -76,4 +76,11 @@
    NAME         STATUS   ROLES                       AGE     VERSION
    rke-master   Ready    control-plane,etcd,master   119m    v1.28.15+rke2r1
    rke-node1    Ready    control-plane,etcd,master   2m29s   v1.28.15+rke2r1
+```
+## 將某台NODE打上taint, 使其不要執行容器
+```shell
+kubectl taint nodes rke-master node.kubernetes.io/unschedulable=true:NoSchedule
+
+# 查看taint是否存在
+
 ```
