@@ -28,7 +28,11 @@
 指定安裝版本:
 ```shell
    ## script會檢查環境, 如不能用RPM安裝,會下載tar ball。
+   1. 安裝server
    curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION=v1.28.15+rke2r1 sh -
+
+   2. 安裝agent
+   curl -sfL https://get.rke2.io | INSTALL_RKE2_TYPE="agent" INSTALL_RKE2_VERSION=v1.31.4+rke2r1 sh -
 
    ## tar ball內容會解壓縮到/usr/local目錄下
    目錄結構如下:
@@ -40,6 +44,11 @@
    systemctl enable rke2-server.service
    systemctl start rke2-server.service
    journalctl -u rke2-server -f     # 查看日誌
+
+   ## 要成為agent節點(wroker node), 可直接啟用rke2-agent服務
+   systemctl enable rke2-agent.service
+   systemctl start rke2-agent.service
+   journalctl -u rke2-agent -f     # 查看日誌
 
    ## 啟用後會將其他工具程式放至/var/lib/rancher/rke2/bin目錄下, 如kubectl。
    ## 可將工具程式export至PATH環境變數中或加進你的profile。
