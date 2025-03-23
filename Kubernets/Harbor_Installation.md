@@ -114,3 +114,52 @@ EOF
 至此, 應該可以打開browser看到harbor介面了。
 ```
 
+## 關機
+```shell
+ /* 在harbor目錄中下此指令 */
+
+# docker compose stop
+Stopping nginx              ... done
+Stopping harbor-portal      ... done
+Stopping harbor-jobservice  ... done
+Stopping harbor-core        ... done
+Stopping registry           ... done
+Stopping redis              ... done
+Stopping registryctl        ... done
+Stopping harbor-db          ... done
+Stopping harbor-log         ... done
+```
+
+## 開機
+```shell
+ /* 在harbor目錄中下此指令 */
+
+# docker compose start
+Starting log         ... done
+Starting registry    ... done
+Starting registryctl ... done
+Starting postgresql  ... done
+Starting core        ... done
+Starting portal      ... done
+Starting redis       ... done
+Starting jobservice  ... done
+Starting proxy       ... done
+```
+
+## 重新設定
+```shell
+1. Stop Harbor.
+# docker compose down -v
+
+2. Update harbor.yml
+# vim harbor.yml
+
+3. Run the prepare script to populate the configuration.
+# ./prepare
+  或是需要安裝Trivy,
+# ./prepare --with-trivy
+
+4. Re-create and start the Harbor instance.
+# docker compose up -d
+
+```
