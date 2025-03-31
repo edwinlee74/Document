@@ -88,8 +88,8 @@
 ```
 ## 將某台NODE打上taint, 使其不要執行容器
 ```shell
-kubectl taint nodes rke-master node.kubernetes.io/unschedulable=true:NoSchedule
+kubectl taint nodes rke-master1 node-role.kubernetes.io/controlplane=true:NoSchedule
 
 # 查看taint是否存在
-
+kubectl describe node rke-master | grep Taints
 ```
