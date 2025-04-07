@@ -19,6 +19,24 @@
 | INSTALL_RKE2_CHANNEL    | Channel to use for fetching RKE2 download URL. Defaults to stable. Options include: stable, latest, testing. |
 | INSTALL_RKE2_METHOD     | Method of installation to use. Default is on RPM-based systems rpm, all else tar. |
 
+## 不傳之秘
+
+[CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS是一個神奇的環境變數](https://github.com/rancher/rke2/discussions/6639)
+```shell
+維護者的話:
+ Use of CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS is NOT officially supported, and we DO NOT document it or recommend it. However, we have no plans to remove support for this env var from the library that RKE2 uses to generate certificates.
+
+維護者的真心話:
+ Yes. You should be patching your nodes at least every few months. After a full year your Kubernetes minor version would be end of life and long overdue for an upgrade.
+
+ Kubernetes is not a good choice for those who want to install things and then never touch it again.
+
+如果你真的想用的話...
+$ echo CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650 >> /usr/local/lib/systemd/system/rke2-server.env
+systemctl enable rke2-server.service
+systemctl start rke2-server.service
+```
+
 ## 安裝方法
 安裝方法可以使用tar ball及RPM套件二種方法安裝, 官方有提供安裝scirpt, 可直接下載。
 ```shell
