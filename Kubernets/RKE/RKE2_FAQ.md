@@ -14,3 +14,9 @@ ps axo stat,ppid,pid,comm | grep -w defunct
 * v1.27.15+rke2r1也會發生。
 * v1.26.15+rke2r1不會發生。
 ```
+
+3. 如何檢查憑證日期
+```shell
+$ echo | openssl s_client -connect localhost:6443 -servername rke-master2 2>/dev/null | openssl x509 -noout -dates
+$ openssl x509 -in /var/lib/rancher/rke2/server/tls/client-auth-proxy.crt -noout -dates
+```
