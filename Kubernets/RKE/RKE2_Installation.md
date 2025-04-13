@@ -110,4 +110,6 @@ kubectl taint nodes rke-master1 node-role.kubernetes.io/controlplane=true:NoSche
 
 # 查看taint是否存在
 kubectl describe node rke-master | grep Taints
+
 ```
+kubectl label node ai-a16gpu node-role.kubernetes.io/a16gpu=

@@ -104,6 +104,7 @@ EOF
 /* 設定harbor*/
 1. Run the prepare script to enable HTTPS.
 # ./prepare
+# ./install.sh (如果尚未安裝)
 
 2. If Harbor is running, stop and remove the existing instance.
 # docker compose down -v
@@ -163,3 +164,18 @@ Starting proxy       ... done
 # docker compose up -d
 
 ```
+
+# 測試image上傳
+```shell
+/* loging 到 harbor */
+# docker login https://harbor.myad.lab:5000
+
+/* 將本地image 先做tag */
+# docker tag hello-world:latest harbor.myad.lab:5000/library/myapp:v1.0
+
+/* 推送imgage到harbor */
+# docker push harbor.myad.lab:5000/library/myapp:v1.0
+
+
+
+
