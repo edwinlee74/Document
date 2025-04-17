@@ -104,7 +104,7 @@ EOF
 /* 設定harbor*/
 1. Run the prepare script to enable HTTPS.
 # ./prepare
-# ./install.sh (如果尚未安裝)
+# ./install.sh --with-trivy (如果尚未安裝)
 
 2. If Harbor is running, stop and remove the existing instance.
 # docker compose down -v
@@ -176,6 +176,23 @@ Starting proxy       ... done
 /* 推送imgage到harbor */
 # docker push harbor.myad.lab:5000/library/myapp:v1.0
 
+# 撰寫systemd 服務
+```shell
+[Unit]
+Description=Harbor Container Registry
+After=docker.service systemd-networkd.service systemd-resolved.service
+Requires=docker.service
 
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+WorkingDirectory=/root/harbor
+ExecStart=/usr/bin/docker compose -f /root/harbor/docker-compose.yml up
+ExecStop=/usr/bin/docker compose -f /root/harbor/docker-compose.yml down
+
+[Install]
+WantedBy=multi-user.target
+```
 
 
