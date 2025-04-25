@@ -20,3 +20,15 @@ ps axo stat,ppid,pid,comm | grep -w defunct
 $ echo | openssl s_client -connect localhost:6443 -servername rke-master2 2>/dev/null | openssl x509 -noout -dates
 $ openssl x509 -in /var/lib/rancher/rke2/server/tls/client-auth-proxy.crt -noout -dates
 ```
+
+4. Pod中無法以nvidia-smi查看GPU
+```shell
+/* runtimeclass.yaml */
+
+apiVersion: node.k8s.io/v1
+kind: RuntimeClass
+metadata:
+  name: nvidia
+handler: nvidia
+```
+![runtimeClassName](/img/runtimeClassName.png)

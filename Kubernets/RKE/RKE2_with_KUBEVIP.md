@@ -13,7 +13,7 @@ export RKE2_API_VIP=<API_SERVER_VIP_IP>
 export RKE2_NODE_0_IP=<CONTROL_PLANE_FIRST_NODE_IP>
 export RKE2_NODE_1_IP=<CONTROL_PLANE_SECOND_NODE_IP>
 export RKE2_NODE_2_IP=<CONTROL_PLANE_THIRD_NODE_IP>
-export NODE_JOIN_TOKEN="RancherOnNutanixRocks"
+export NODE_JOIN_TOKEN=`echo "$(uuidgen)::$(openssl rand -hex 16)"`
 export INTERFACE=enp0s3
 export KUBE_VIP_VERSION=v0.4.2
 ```
