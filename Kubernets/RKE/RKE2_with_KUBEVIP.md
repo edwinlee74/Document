@@ -121,3 +121,45 @@ disable:
 - rke2-snapshot-controller-crd
 EOF
 ```
+
+# Kube-VIP restart太多次問題
+```shell
+/*
+使用預設的kube-vip時， 會發現重啟多次問題，
+檢視log會有下列訊息：
+
+  failed to renew lease ...: context deadline exceeded  
+  client rate limiter Wait returned an error: context deadline exceeded
+
+代表 kube-vip 在嘗試維持 leadership 時被 Kubernetes API rate limit 擋住，
+導致失去 leader 資格後自我終止（然後再被 DaemonSet 重啟）。
+需要修改下列設定值：
+*/
+
+1. 增加 KUBERNETES_REQUEST_QPS / BURST 設定
+   - 在 env: 區塊 -
+
+   - name: KUBERNETES_REQUEST_QPS
+     value: "100"
+   - name: KUBERNETES_REQUEST_BURST
+     value: "200"
+
+2. 調整 Leader Election 的 timeout
+
+   - name: vip_leaseduration
+     value: "15"
+   - name: vip_renewdeadline
+     value: "10"
+   - name: vip_retryperiod
+     value: "2"
+
+3. 加入資源限制（避免 kube-vip 被 OOMKill [Out Of Memory killer]）
+
+   resources:
+     requests:
+       cpu: "50m"
+       memory: "64Mi"
+     limits:
+       cpu: "500m"
+       memory: "256Mi"
+```

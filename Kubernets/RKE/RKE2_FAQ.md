@@ -32,3 +32,8 @@ metadata:
 handler: nvidia
 ```
 ![runtimeClassName](/img/runtimeClassName.png)
+```shell
+/* 在pod中要加進runtimeclassname */
+spec:
+  runtimeClassName: nvidia
+```

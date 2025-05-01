@@ -40,6 +40,7 @@ $ helm repo add nvidia https://helm.ngc.nvidia.com/nvidia && helm repo update
     -n gpu-operator --create-namespace \
     nvidia/gpu-operator \
     --version=v25.3.0 \
+    --set operator.defaultRuntime=containerd \
     --set driver.enabled=false \
     --set toolkit.env[0].name=CONTAINERD_CONFIG \
     --set toolkit.env[0].value=/var/lib/rancher/rke2/agent/etc/containerd/config.toml \
@@ -151,3 +152,5 @@ GPU Device 0: "Maxwell" with compute capability 5.0
 = 25.917 billion interactions per second
 = 518.344 single-precision GFLOP/s at 20 flops per interaction
 ```
+# 不用runtimeclassname
+kubectl run gpu-test --rm -t -i --restart=Never --image=nvcr.io/nvidia/cuda:10.1-base-ubuntu18.04 nvidia-smi
